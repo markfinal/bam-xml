@@ -1,2 +1,2 @@
 # bam-xml
-BuildAMation XML repository
+[BuildAMation](https://github.com/markfinal/BuildAMation) XML repository
