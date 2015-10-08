@@ -33,15 +33,6 @@ namespace TinyXML2
     sealed class TinyXML2Static :
         C.StaticLibrary
     {
-        private Bam.Core.Module.PublicPatchDelegate includePaths = (settings, appliedTo) =>
-        {
-            var compiler = settings as C.ICommonCompilerSettings;
-            if (null != compiler)
-            {
-                compiler.IncludePaths.AddUnique(Bam.Core.TokenizedString.Create("$(packagedir)", appliedTo));
-            }
-        };
-
         protected override void
         Init(
             Bam.Core.Module parent)
@@ -49,11 +40,15 @@ namespace TinyXML2
             base.Init(parent);
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
-            
-            var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
-            source.PrivatePatch(settings => this.includePaths(settings, this));
-
-            this.PublicPatch((settings, appliedTo) => this.includePaths(settings, this));
+            this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
+            this.PublicPatch((settings, appliedTo) =>
+                {
+                    var compiler = settings as C.ICommonCompilerSettings;
+                    if (null != compiler)
+                    {
+                        compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
+                    }
+                });
         }
     }
 }
