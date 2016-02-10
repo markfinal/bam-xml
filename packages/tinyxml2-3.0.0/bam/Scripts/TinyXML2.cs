@@ -29,7 +29,7 @@
 #endregion // License
 namespace TinyXML2
 {
-    [Bam.Core.ModuleGroup("Thirdparty")]
+    [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
     sealed class TinyXML2Static :
         C.StaticLibrary
     {
