@@ -41,7 +41,13 @@ namespace TinyXML2
             base.Init(parent);
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
-            this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
+            var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
+            source.PrivatePatch(settings =>
+                {
+                    var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
+                    cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
+                });
+
             this.PublicPatch((settings, appliedTo) =>
                 {
                     var compiler = settings as C.ICommonCompilerSettings;
@@ -65,6 +71,12 @@ namespace TinyXML2
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
+            source.PrivatePatch(settings =>
+                {
+                    var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
+                    cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
+                });
+
             source.PrivatePatch(settings =>
                 {
                     if (this.BuildEnvironment.Platform.Includes(Bam.Core.EPlatform.Windows))
