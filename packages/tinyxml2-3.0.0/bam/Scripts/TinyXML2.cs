@@ -69,6 +69,10 @@ namespace TinyXML2
         {
             base.Init(parent);
 
+            this.Macros["MajorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("3");
+            this.Macros["MinorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("0");
+            this.Macros["PatchVersion"] = Bam.Core.TokenizedString.CreateVerbatim("0");
+
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
             source.PrivatePatch(settings =>
