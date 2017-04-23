@@ -3,3 +3,4 @@
 This repository contains source build scripts for
 
 * tinyxml2-3.0.0 ([source downloadable](http://www.grinninglizard.com/tinyxml2/index.html))
+* tinyxml2-4.0.1 ([source downloadable](http://www.grinninglizard.com/tinyxml2/index.html))
