@@ -202,6 +202,10 @@ namespace TinyXML2
                             mingwCompiler.AllWarnings = true;
                             mingwCompiler.ExtraWarnings = true;
                             mingwCompiler.Pedantic = true;
+
+                            // TODO: unable to resolve these errors:
+                            // tinyxml2-4.0.1\tinyxml2.cpp:562:57: error: unknown conversion type character 'l' in format [-Werror=format=]
+                            // tinyxml2-4.0.1\tinyxml2.cpp:622:34: error: too many arguments for format [-Werror=format-extra-args]
                         }
 
                         var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
