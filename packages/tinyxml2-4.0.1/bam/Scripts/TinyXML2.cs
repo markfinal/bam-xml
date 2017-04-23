@@ -210,6 +210,12 @@ namespace TinyXML2
                             gccCompiler.AllWarnings = true;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
+
+                            if (this.BuildEnvironment.Configuration != EConfiguration.Debug)
+                            {
+                                var compiler = settings as C.ICommonCompilerSettings;
+                                compiler.DisableWarnings.AddUnique("unused-result"); // tinyxml2-4.0.1/xmltest.cpp:600:34: error: ignoring return value of 'char* fgets(char*, int, FILE*)', declared with attribute warn_unused_result [-Werror=unused-result]
+                            }
                         }
 
                         var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
