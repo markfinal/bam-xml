@@ -257,6 +257,8 @@ namespace TinyXML2
         sealed class TestRuntime :
             Publisher.Collation
         {
+#if D_NEW_PUBLISHING
+#else
             protected override void
             Init(
                 Bam.Core.Module parent)
@@ -266,6 +268,7 @@ namespace TinyXML2
                 var app = this.Include<XMLTest>(C.Cxx.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
                 this.Include<TinyXML2Dynamic>(C.Cxx.ConsoleApplication.Key, ".", app);
             }
+#endif
         }
     }
 }
