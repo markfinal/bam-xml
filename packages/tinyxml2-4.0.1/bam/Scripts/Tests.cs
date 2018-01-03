@@ -123,7 +123,7 @@ namespace TinyXML2
                 base.Init(parent);
 
 #if D_NEW_PUBLISHING
-                this.SetDefaultMacros(EPublishingType.ConsoleApplication);
+                this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
                 this.IncludeAllModulesInNamespace("TinyXML2.tests", C.Cxx.ConsoleApplication.Key);
 #else
                 var app = this.Include<XMLTest>(C.Cxx.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
