@@ -31,7 +31,7 @@ using Bam.Core;
 namespace TinyXML2
 {
     [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
-    sealed class TinyXML2Static :
+    class TinyXML2Static :
         C.StaticLibrary
     {
         protected override void
@@ -60,7 +60,7 @@ namespace TinyXML2
     }
 
     [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
-    sealed class TinyXML2Dynamic :
+    class TinyXML2Dynamic :
         C.Cxx.DynamicLibrary
     {
         protected override void
