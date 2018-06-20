@@ -106,10 +106,6 @@ namespace TinyXML2
                     });
 #endif
 
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
             }
         }
 
