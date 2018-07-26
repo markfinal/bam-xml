@@ -117,13 +117,8 @@ namespace TinyXML2
             {
                 base.Init(parent);
 
-#if D_NEW_PUBLISHING
                 this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
                 this.IncludeAllModulesInNamespace("TinyXML2.tests", C.Cxx.ConsoleApplication.Key);
-#else
-                var app = this.Include<XMLTest>(C.Cxx.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
-                this.Include<TinyXML2Dynamic>(C.Cxx.ConsoleApplication.Key, ".", app);
-#endif
             }
         }
     }
