@@ -1,5 +1,5 @@
 #region License
-// Copyright (c) 2010-2017, Mark Final
+// Copyright (c) 2010-2018, Mark Final
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ using Bam.Core;
 namespace TinyXML2
 {
     [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
-    sealed class TinyXML2Static :
+    class TinyXML2Static :
         C.StaticLibrary
     {
         protected override void
@@ -60,7 +60,7 @@ namespace TinyXML2
     }
 
     [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
-    sealed class TinyXML2Dynamic :
+    class TinyXML2Dynamic :
         C.Cxx.DynamicLibrary
     {
         protected override void
@@ -69,9 +69,7 @@ namespace TinyXML2
         {
             base.Init(parent);
 
-            this.Macros["MajorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("3");
-            this.Macros["MinorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("0");
-            this.Macros["PatchVersion"] = Bam.Core.TokenizedString.CreateVerbatim("0");
+            this.SetSemanticVersion(3, 0, 0);
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
@@ -116,11 +114,6 @@ namespace TinyXML2
                         }
                     }
                 });
-
-            if (this.Linker is VisualCCommon.LinkerBase)
-            {
-                this.LinkAgainst<WindowsSDK.WindowsSDK>();
-            }
         }
     }
 }

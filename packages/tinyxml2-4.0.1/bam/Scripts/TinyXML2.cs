@@ -1,5 +1,5 @@
 #region License
-// Copyright (c) 2010-2017, Mark Final
+// Copyright (c) 2010-2018, Mark Final
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -100,9 +100,7 @@ namespace TinyXML2
         {
             base.Init(parent);
 
-            this.Macros["MajorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("4");
-            this.Macros["MinorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("0");
-            this.Macros["PatchVersion"] = Bam.Core.TokenizedString.CreateVerbatim("1");
+            this.SetSemanticVersion(4, 0, 1);
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
@@ -163,109 +161,6 @@ namespace TinyXML2
                         }
                     }
                 });
-
-            if (this.Linker is VisualCCommon.LinkerBase)
-            {
-                this.LinkAgainst<WindowsSDK.WindowsSDK>();
-            }
-        }
-    }
-
-    namespace tests
-    {
-        [Bam.Core.ModuleGroup("Thirdparty/TinyXML2/tests")]
-        sealed class XMLTest :
-            C.Cxx.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCxxSourceContainer("$(packagedir)/xmltest.cpp");
-                source.PrivatePatch(settings =>
-                    {
-                        var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
-                        cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
-                        cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
-
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
-                        {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
-                        }
-
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
-                        {
-                            mingwCompiler.AllWarnings = true;
-                            mingwCompiler.ExtraWarnings = true;
-                            mingwCompiler.Pedantic = true;
-
-                            // TODO: unable to resolve these errors:
-                            // tinyxml2-4.0.1\tinyxml2.cpp:562:57: error: unknown conversion type character 'l' in format [-Werror=format=]
-                            // tinyxml2-4.0.1\tinyxml2.cpp:622:34: error: too many arguments for format [-Werror=format-extra-args]
-                        }
-
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
-                        {
-                            gccCompiler.AllWarnings = true;
-                            gccCompiler.ExtraWarnings = true;
-                            gccCompiler.Pedantic = true;
-
-                            if (this.BuildEnvironment.Configuration != EConfiguration.Debug)
-                            {
-                                var compiler = settings as C.ICommonCompilerSettings;
-                                compiler.DisableWarnings.AddUnique("unused-result"); // tinyxml2-4.0.1/xmltest.cpp:600:34: error: ignoring return value of 'char* fgets(char*, int, FILE*)', declared with attribute warn_unused_result [-Werror=unused-result]
-                            }
-                        }
-
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
-                        {
-                            clangCompiler.AllWarnings = true;
-                            clangCompiler.ExtraWarnings = true;
-                            clangCompiler.Pedantic = true;
-                        }
-                    });
-
-#if false
-                this.CompileAndLinkAgainst<TinyXML2Static>(source);
-#else
-                this.CompileAndLinkAgainst<TinyXML2Dynamic>(source);
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
-#endif
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-            }
-        }
-
-        sealed class TestRuntime :
-            Publisher.Collation
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var app = this.Include<XMLTest>(C.Cxx.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
-                this.Include<TinyXML2Dynamic>(C.Cxx.ConsoleApplication.Key, ".", app);
-            }
         }
     }
 }
