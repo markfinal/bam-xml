@@ -119,7 +119,7 @@ namespace TinyXML2
                 base.Init(parent);
 
                 this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
-                this.IncludeAllModulesInNamespace("TinyXML2.tests", C.Cxx.ConsoleApplication.Key);
+                this.IncludeAllModulesInNamespace("TinyXML2.tests", C.Cxx.ConsoleApplication.ExecutableKey);
             }
         }
     }
