@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageDefinition xsi:schemaLocation="http://www.buildamation.com ./Schema/BamPackageDefinitionV1.xsd" name="TinyXML2" version="4.0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.buildamation.com">
   <Description>TinyXML2 open source, v4.0.1</Description>
+  <Source>https://github.com/leethomason/tinyxml2/archive/4.0.1.tar.gz</Source>
   <Dependents>
     <Package name="C" />
     <Package name="Clang" version="Xcode4" />
