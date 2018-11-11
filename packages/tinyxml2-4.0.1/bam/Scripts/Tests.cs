@@ -27,7 +27,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion // License
-using Bam.Core;
 namespace TinyXML2
 {
     namespace tests
@@ -49,14 +48,12 @@ namespace TinyXML2
                         cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
                         cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
 
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                         {
                             visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         }
 
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
+                        if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                         {
                             mingwCompiler.AllWarnings = true;
                             mingwCompiler.ExtraWarnings = true;
@@ -67,22 +64,20 @@ namespace TinyXML2
                             // tinyxml2-4.0.1\tinyxml2.cpp:622:34: error: too many arguments for format [-Werror=format-extra-args]
                         }
 
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
+                        if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                         {
                             gccCompiler.AllWarnings = true;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
 
-                            if (this.BuildEnvironment.Configuration != EConfiguration.Debug)
+                            if (this.BuildEnvironment.Configuration != Bam.Core.EConfiguration.Debug)
                             {
                                 var compiler = settings as C.ICommonCompilerSettings;
                                 compiler.DisableWarnings.AddUnique("unused-result"); // tinyxml2-4.0.1/xmltest.cpp:600:34: error: ignoring return value of 'char* fgets(char*, int, FILE*)', declared with attribute warn_unused_result [-Werror=unused-result]
                             }
                         }
 
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
+                        if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                         {
                             clangCompiler.AllWarnings = true;
                             clangCompiler.ExtraWarnings = true;
@@ -97,8 +92,7 @@ namespace TinyXML2
 
                 this.PrivatePatch(settings =>
                     {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
+                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
                         {
                             gccLinker.CanUseOrigin = true;
                             gccLinker.RPath.AddUnique("$ORIGIN");

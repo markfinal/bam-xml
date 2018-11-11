@@ -48,30 +48,26 @@ namespace TinyXML2
                     cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
                     cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
 
-                    var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                    if (null != visualCCompiler)
+                    if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                     }
 
-                    var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                    if (null != mingwCompiler)
+                    if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                     {
                         mingwCompiler.AllWarnings = true;
                         mingwCompiler.ExtraWarnings = true;
                         mingwCompiler.Pedantic = true;
                     }
 
-                    var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                    if (null != gccCompiler)
+                    if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                     {
                         gccCompiler.AllWarnings = true;
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
                     }
 
-                    var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                    if (null != clangCompiler)
+                    if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                     {
                         clangCompiler.AllWarnings = true;
                         clangCompiler.ExtraWarnings = true;
@@ -81,8 +77,7 @@ namespace TinyXML2
 
             this.PublicPatch((settings, appliedTo) =>
                 {
-                    var compiler = settings as C.ICommonCompilerSettings;
-                    if (null != compiler)
+                    if (settings is C.ICommonCompilerSettings compiler)
                     {
                         compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                     }
@@ -111,15 +106,13 @@ namespace TinyXML2
                     cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
                     cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
 
-                    var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                    if (null != visualCCompiler)
+                    if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         compiler.PreprocessorDefines.Add("TINYXML2_EXPORT");
                     }
 
-                    var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                    if (null != mingwCompiler)
+                    if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                     {
                         mingwCompiler.AllWarnings = true;
                         mingwCompiler.ExtraWarnings = true;
@@ -127,8 +120,7 @@ namespace TinyXML2
                         compiler.PreprocessorDefines.Add("TINYXML2_EXPORT");
                     }
 
-                    var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                    if (null != gccCompiler)
+                    if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                     {
                         gccCompiler.AllWarnings = true;
                         gccCompiler.ExtraWarnings = true;
@@ -137,8 +129,7 @@ namespace TinyXML2
                         gccCompiler.Visibility = GccCommon.EVisibility.Default;
                     }
 
-                    var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                    if (null != clangCompiler)
+                    if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                     {
                         clangCompiler.AllWarnings = true;
                         clangCompiler.ExtraWarnings = true;
@@ -150,8 +141,7 @@ namespace TinyXML2
 
             this.PublicPatch((settings, appliedTo) =>
                 {
-                    var compiler = settings as C.ICommonCompilerSettings;
-                    if (null != compiler)
+                    if (settings is C.ICommonCompilerSettings compiler)
                     {
                         compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                         if (this.BuildEnvironment.Platform.Includes(Bam.Core.EPlatform.Windows) && appliedTo != this)
