@@ -77,9 +77,9 @@ namespace TinyXML2
 
             this.PublicPatch((settings, appliedTo) =>
                 {
-                    if (settings is C.ICommonCompilerSettings compiler)
+                    if (settings is C.ICommonPreprocessorSettings preprocessor)
                     {
-                        compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
+                        preprocessor.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                     }
                 });
         }
@@ -101,7 +101,7 @@ namespace TinyXML2
             var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
             source.PrivatePatch(settings =>
                 {
-                    var compiler = settings as C.ICommonCompilerSettings;
+                    var preprocessor = settings as C.ICommonPreprocessorSettings;
                     var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
                     cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
                     cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
@@ -109,7 +109,7 @@ namespace TinyXML2
                     if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
-                        compiler.PreprocessorDefines.Add("TINYXML2_EXPORT");
+                        preprocessor.PreprocessorDefines.Add("TINYXML2_EXPORT");
                     }
 
                     if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
@@ -117,7 +117,7 @@ namespace TinyXML2
                         mingwCompiler.AllWarnings = true;
                         mingwCompiler.ExtraWarnings = true;
                         mingwCompiler.Pedantic = true;
-                        compiler.PreprocessorDefines.Add("TINYXML2_EXPORT");
+                        preprocessor.PreprocessorDefines.Add("TINYXML2_EXPORT");
                     }
 
                     if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
@@ -141,13 +141,13 @@ namespace TinyXML2
 
             this.PublicPatch((settings, appliedTo) =>
                 {
-                    if (settings is C.ICommonCompilerSettings compiler)
+                    if (settings is C.ICommonPreprocessorSettings preprocessor)
                     {
-                        compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
+                        preprocessor.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                         if (this.BuildEnvironment.Platform.Includes(Bam.Core.EPlatform.Windows) && appliedTo != this)
                         {
                             // applied everywhere it's not built
-                            compiler.PreprocessorDefines.Add("TINYXML2_IMPORT");
+                            preprocessor.PreprocessorDefines.Add("TINYXML2_IMPORT");
                         }
                     }
                 });
