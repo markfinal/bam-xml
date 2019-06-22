@@ -93,6 +93,15 @@ namespace GenerateXMLTest1
             base.Init(parent);
 
             this.CompileAndLinkAgainst<TinyXML2.TinyXML2Dynamic>(this.Source);
+
+            this.PrivatePatch(settings =>
+            {
+                if (settings is GccCommon.ICommonLinkerSettings gccLinker)
+                {
+                    gccLinker.CanUseOrigin = true;
+                    gccLinker.RPath.AddUnique("$ORIGIN");
+                }
+            });
         }
     }
 
