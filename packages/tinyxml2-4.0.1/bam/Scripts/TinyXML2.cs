@@ -65,6 +65,16 @@ namespace TinyXML2
                         gccCompiler.AllWarnings = true;
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
+
+                        var gccMetaData = Bam.Core.Graph.Instance.PackageMetaData<Gcc.MetaData>("Gcc");
+                        if (null != gccMetaData)
+                        {
+                            if (gccMetaData.ToolchainVersion.AtLeast(GccCommon.ToolchainVersion.GCC_7))
+                            {
+                                var compiler = settings as C.ICommonCompilerSettings;
+                                compiler.DisableWarnings.AddUnique("implicit-fallthrough");
+                            }
+                        }
                     }
 
                     if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
@@ -125,8 +135,19 @@ namespace TinyXML2
                         gccCompiler.AllWarnings = true;
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
+
                         // brute force visibility
                         gccCompiler.Visibility = GccCommon.EVisibility.Default;
+
+                        var gccMetaData = Bam.Core.Graph.Instance.PackageMetaData<Gcc.MetaData>("Gcc");
+                        if (null != gccMetaData)
+                        {
+                            if (gccMetaData.ToolchainVersion.AtLeast(GccCommon.ToolchainVersion.GCC_7))
+                            {
+                                var compiler = settings as C.ICommonCompilerSettings;
+                                compiler.DisableWarnings.AddUnique("implicit-fallthrough");
+                            }
+                        }
                     }
 
                     if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
