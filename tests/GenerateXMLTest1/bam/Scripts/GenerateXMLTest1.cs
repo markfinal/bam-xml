@@ -36,10 +36,9 @@ namespace GenerateXMLTest1
         protected C.Cxx.ObjectFileCollection Source;
 
         protected override void
-        Init(
-            Bam.Core.Module parent)
+        Init()
         {
-            base.Init(parent);
+            base.Init();
 
             this.Source = this.CreateCxxSourceContainer("$(packagedir)/source/*.cpp");
             this.Source.PrivatePatch(settings =>
@@ -74,10 +73,9 @@ namespace GenerateXMLTest1
         GenerateXMLTest1_Common
     {
         protected override void
-        Init(
-            Bam.Core.Module parent)
+        Init()
         {
-            base.Init(parent);
+            base.Init();
 
             this.CompileAndLinkAgainst<TinyXML2.TinyXML2Static>(this.Source);
         }
@@ -87,10 +85,9 @@ namespace GenerateXMLTest1
         GenerateXMLTest1_Common
     {
         protected override void
-        Init(
-            Bam.Core.Module parent)
+        Init()
         {
-            base.Init(parent);
+            base.Init();
 
             this.CompileAndLinkAgainst<TinyXML2.TinyXML2Dynamic>(this.Source);
 
@@ -109,10 +106,9 @@ namespace GenerateXMLTest1
         Publisher.Collation
     {
         protected override void
-        Init(
-            Bam.Core.Module parent)
+        Init()
         {
-            base.Init(parent);
+            base.Init();
 
             this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
             this.Include<GenerateXMLTest1_Static>(C.Cxx.ConsoleApplication.ExecutableKey);

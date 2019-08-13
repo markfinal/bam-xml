@@ -35,10 +35,9 @@ namespace TinyXML2
         C.StaticLibrary
     {
         protected override void
-        Init(
-            Bam.Core.Module parent)
+        Init()
         {
-            base.Init(parent);
+            base.Init();
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
@@ -100,10 +99,9 @@ namespace TinyXML2
         C.Cxx.DynamicLibrary
     {
         protected override void
-        Init(
-            Bam.Core.Module parent)
+        Init()
         {
-            base.Init(parent);
+            base.Init();
 
             this.SetSemanticVersion(4, 0, 1);
 

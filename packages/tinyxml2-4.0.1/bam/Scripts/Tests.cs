@@ -36,10 +36,9 @@ namespace TinyXML2
             C.Cxx.ConsoleApplication
         {
             protected override void
-            Init(
-                Bam.Core.Module parent)
+            Init()
             {
-                base.Init(parent);
+                base.Init();
 
                 var source = this.CreateCxxSourceContainer("$(packagedir)/xmltest.cpp");
                 source.PrivatePatch(settings =>
@@ -106,10 +105,9 @@ namespace TinyXML2
             Publisher.Collation
         {
             protected override void
-            Init(
-                Bam.Core.Module parent)
+            Init()
             {
-                base.Init(parent);
+                base.Init();
 
                 this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
                 this.IncludeAllModulesInNamespace("TinyXML2.tests", C.Cxx.ConsoleApplication.ExecutableKey);
