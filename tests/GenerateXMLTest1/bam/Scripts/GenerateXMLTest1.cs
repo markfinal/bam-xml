@@ -40,7 +40,7 @@ namespace GenerateXMLTest1
         {
             base.Init();
 
-            this.Source = this.CreateCxxSourceContainer("$(packagedir)/source/*.cpp");
+            this.Source = this.CreateCxxSourceCollection("$(packagedir)/source/*.cpp");
             this.Source.PrivatePatch(settings =>
             {
                 var compiler = settings as C.ICommonCompilerSettings;

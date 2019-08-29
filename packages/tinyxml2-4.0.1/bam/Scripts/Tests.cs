@@ -40,7 +40,7 @@ namespace TinyXML2
             {
                 base.Init();
 
-                var source = this.CreateCxxSourceContainer("$(packagedir)/xmltest.cpp");
+                var source = this.CreateCxxSourceCollection("$(packagedir)/xmltest.cpp");
                 source.PrivatePatch(settings =>
                     {
                         var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;

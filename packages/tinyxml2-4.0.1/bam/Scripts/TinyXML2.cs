@@ -39,8 +39,8 @@ namespace TinyXML2
         {
             base.Init();
 
-            this.CreateHeaderContainer("$(packagedir)/*.h");
-            var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
+            this.CreateHeaderCollection("$(packagedir)/*.h");
+            var source = this.CreateCxxSourceCollection("$(packagedir)/tinyxml2.cpp");
             source.PrivatePatch(settings =>
                 {
                     var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
@@ -105,8 +105,8 @@ namespace TinyXML2
 
             this.SetSemanticVersion(4, 0, 1);
 
-            this.CreateHeaderContainer("$(packagedir)/*.h");
-            var source = this.CreateCxxSourceContainer("$(packagedir)/tinyxml2.cpp");
+            this.CreateHeaderCollection("$(packagedir)/*.h");
+            var source = this.CreateCxxSourceCollection("$(packagedir)/tinyxml2.cpp");
             source.PrivatePatch(settings =>
                 {
                     var preprocessor = settings as C.ICommonPreprocessorSettings;
