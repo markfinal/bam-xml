@@ -27,9 +27,17 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion // License
-using Bam.Core;
 namespace TinyXML2
 {
+    [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
+    class SDK :
+        C.SDKTemplate
+    {
+        protected override Bam.Core.TypeArray LibraryModuleTypes { get; } = new Bam.Core.TypeArray(
+            typeof(TinyXML2Dynamic)
+        );
+    }
+
     [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
     class TinyXML2Static :
         C.StaticLibrary
@@ -43,6 +51,7 @@ namespace TinyXML2
             var source = this.CreateCxxSourceCollection("$(packagedir)/tinyxml2.cpp");
             source.PrivatePatch(settings =>
                 {
+                    /*
                     var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
                     cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
                     cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
@@ -82,8 +91,10 @@ namespace TinyXML2
                         clangCompiler.ExtraWarnings = true;
                         clangCompiler.Pedantic = true;
                     }
+                    */
                 });
 
+            /*
             this.PublicPatch((settings, appliedTo) =>
                 {
                     if (settings is C.ICommonPreprocessorSettings preprocessor)
@@ -91,13 +102,21 @@ namespace TinyXML2
                         preprocessor.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                     }
                 });
+                */
         }
     }
 
     [Bam.Core.ModuleGroup("Thirdparty/TinyXML2")]
     class TinyXML2Dynamic :
-        C.Cxx.DynamicLibrary
+        C.Cxx.DynamicLibrary,
+        C.IPublicHeaders
     {
+        Bam.Core.TokenizedString C.IPublicHeaders.SourceRootDirectory => null;
+
+        Bam.Core.StringArray C.IPublicHeaders.PublicHeaderPaths { get; } = new Bam.Core.StringArray(
+            "tinyxml2.h"
+        );
+
         protected override void
         Init()
         {
@@ -109,10 +128,17 @@ namespace TinyXML2
             var source = this.CreateCxxSourceCollection("$(packagedir)/tinyxml2.cpp");
             source.PrivatePatch(settings =>
                 {
+                    if (settings is C.ICommonCompilerSettings compiler)
+                    {
+                        compiler.WarningsAsErrors = false;
+                    }
+
                     var preprocessor = settings as C.ICommonPreprocessorSettings;
+                    /*
                     var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
                     cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
                     cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
+                    */
 
                     if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
@@ -128,6 +154,7 @@ namespace TinyXML2
                         preprocessor.PreprocessorDefines.Add("TINYXML2_EXPORT");
                     }
 
+                    /*
                     if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                     {
                         gccCompiler.AllWarnings = true;
@@ -156,8 +183,10 @@ namespace TinyXML2
                         // brute force visibility
                         clangCompiler.Visibility = ClangCommon.EVisibility.Default;
                     }
+                    */
                 });
 
+            /*
             this.PublicPatch((settings, appliedTo) =>
                 {
                     if (settings is C.ICommonPreprocessorSettings preprocessor)
@@ -170,6 +199,7 @@ namespace TinyXML2
                         }
                     }
                 });
+                */
         }
     }
 }

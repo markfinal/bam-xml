@@ -27,7 +27,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion // License
-using Bam.Core;
 namespace GenerateXMLTest1
 {
     abstract class GenerateXMLTest1_Common :
@@ -46,8 +45,10 @@ namespace GenerateXMLTest1
                 var compiler = settings as C.ICommonCompilerSettings;
                 compiler.WarningsAsErrors = true;
 
-                var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
-                cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
+                if (settings is C.ICxxOnlyCompilerSettings cxxCompiler)
+                {
+                    cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
+                }
 
                 if (settings is VisualCCommon.ICommonCompilerSettings vcCompiler)
                 {
@@ -69,6 +70,7 @@ namespace GenerateXMLTest1
         }
     }
 
+    /*
     class GenerateXMLTest1_Static :
         GenerateXMLTest1_Common
     {
@@ -80,6 +82,7 @@ namespace GenerateXMLTest1
             this.CompileAndLinkAgainst<TinyXML2.TinyXML2Static>(this.Source);
         }
     }
+    */
 
     class GenerateXMLTest1_Dynamic :
         GenerateXMLTest1_Common
@@ -89,14 +92,16 @@ namespace GenerateXMLTest1
         {
             base.Init();
 
-            this.CompileAndLinkAgainst<TinyXML2.TinyXML2Dynamic>(this.Source);
+            this.UseSDK<TinyXML2.SDK>(this.Source);
 
             this.PrivatePatch(settings =>
             {
                 if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
                 {
+                    /*
                     linuxLinker.CanUseOrigin = true;
                     linuxLinker.RPath.AddUnique("$ORIGIN");
+                    */
                 }
             });
         }
@@ -111,7 +116,7 @@ namespace GenerateXMLTest1
             base.Init();
 
             this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
-            this.Include<GenerateXMLTest1_Static>(C.Cxx.ConsoleApplication.ExecutableKey);
+            //this.Include<GenerateXMLTest1_Static>(C.Cxx.ConsoleApplication.ExecutableKey);
             this.Include<GenerateXMLTest1_Dynamic>(C.Cxx.ConsoleApplication.ExecutableKey);
         }
     }

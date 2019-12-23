@@ -87,15 +87,17 @@ namespace TinyXML2
 #if false
                 this.CompileAndLinkAgainst<TinyXML2Static>(source);
 #else
-                this.CompileAndLinkAgainst<TinyXML2Dynamic>(source);
+                this.UseSDK<SDK>(source);
 
                 this.PrivatePatch(settings =>
                     {
+                        /*
                         if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
                         {
                             linuxLinker.CanUseOrigin = true;
                             linuxLinker.RPath.AddUnique("$ORIGIN");
                         }
+                        */
                     });
 #endif
             }
