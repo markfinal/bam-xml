@@ -137,8 +137,12 @@ namespace TinyXML2
                     /*
                     var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
                     cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
-                    cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
                     */
+
+                    if (settings is C.ICxxOnlyCompilerSettings cxxCompiler)
+                    {
+                        cxxCompiler.LanguageStandard = C.Cxx.ELanguageStandard.Cxx11;
+                    }
 
                     if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
@@ -154,7 +158,6 @@ namespace TinyXML2
                         preprocessor.PreprocessorDefines.Add("TINYXML2_EXPORT");
                     }
 
-                    /*
                     if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                     {
                         gccCompiler.AllWarnings = true;
@@ -164,15 +167,17 @@ namespace TinyXML2
                         // brute force visibility
                         gccCompiler.Visibility = GccCommon.EVisibility.Default;
 
-                        var gccMetaData = Bam.Core.Graph.Instance.PackageMetaData<Gcc.MetaData>("Gcc");
-                        if (null != gccMetaData)
-                        {
-                            if (gccMetaData.ToolchainVersion.AtLeast(GccCommon.ToolchainVersion.GCC_7))
+                        /*
+                            var gccMetaData = Bam.Core.Graph.Instance.PackageMetaData<Gcc.MetaData>("Gcc");
+                            if (null != gccMetaData)
                             {
-                                var compiler = settings as C.ICommonCompilerSettings;
-                                compiler.DisableWarnings.AddUnique("implicit-fallthrough");
+                                if (gccMetaData.ToolchainVersion.AtLeast(GccCommon.ToolchainVersion.GCC_7))
+                                {
+                                    var compiler = settings as C.ICommonCompilerSettings;
+                                    compiler.DisableWarnings.AddUnique("implicit-fallthrough");
+                                }
                             }
-                        }
+                        */
                     }
 
                     if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
@@ -180,10 +185,10 @@ namespace TinyXML2
                         clangCompiler.AllWarnings = true;
                         clangCompiler.ExtraWarnings = true;
                         clangCompiler.Pedantic = true;
+
                         // brute force visibility
                         clangCompiler.Visibility = ClangCommon.EVisibility.Default;
                     }
-                    */
                 });
 
             /*
