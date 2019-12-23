@@ -205,6 +205,13 @@ namespace TinyXML2
                     }
                 });
                 */
+            this.PrivatePatch(settings =>
+            {
+                if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
+                {
+                    linuxLinker.SharedObjectName = this.CreateTokenizedString("$(dynamicprefix)$(OutputName)$(sonameext)");
+                }
+            });
         }
     }
 }

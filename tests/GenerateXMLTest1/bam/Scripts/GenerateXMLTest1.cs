@@ -98,10 +98,8 @@ namespace GenerateXMLTest1
             {
                 if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
                 {
-                    /*
                     linuxLinker.CanUseOrigin = true;
                     linuxLinker.RPath.AddUnique("$ORIGIN");
-                    */
                 }
             });
         }
